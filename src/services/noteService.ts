@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import type { Note } from "../types/note";
+import type { CreateNoteDto, Note } from "../types/note";
 
 const api = axios.create({
   baseURL: "https://notehub-public.goit.study/api",
@@ -25,7 +25,7 @@ export async function fetchNotes(
   return response.data;
 }
 
-export async function createNote(note: Omit<Note, "id">): Promise<Note> {
+export async function createNote(note: CreateNoteDto): Promise<Note> {
   const response: AxiosResponse<Note> = await api.post("/notes", note);
   return response.data;
 }

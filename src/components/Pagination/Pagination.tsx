@@ -13,7 +13,8 @@ const ReactPaginate = (
 
 interface PaginationProps {
   pageCount: number;
-  onPageChange: (selectedPage: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 }
 
 export default function Pagination({
