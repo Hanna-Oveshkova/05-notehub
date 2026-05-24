@@ -14,17 +14,15 @@ const App = () => {
   const [search, setSearch] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // debounce для пошуку
   const debouncedSearch = useDebouncedCallback((value: string) => {
     setSearch(value);
-    setPage(1); // при новому пошуку повертаємось на першу сторінку
+    setPage(1);
   }, 500);
 
-  // запит нотаток
   const { data, isLoading, isError } = useQuery({
     queryKey: ["notes", page, search],
     queryFn: () => fetchNotes(page, 12, search),
-    placeholderData: (prev) => prev, // keepPreviousData у v5
+    placeholderData: (prev) => prev,
   });
 
   return (
@@ -36,17 +34,14 @@ const App = () => {
         </button>
       </header>
 
-      {/* ✅ Використовуємо SearchBox з пропом onSearch */}
       <SearchBox onSearch={debouncedSearch} />
 
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error loading notes.</p>}
       {data && <NoteList notes={data.notes} />}
-
-      {/* ✅ Пагінація тільки якщо сторінок більше ніж одна */}
       {data && data.totalPages > 1 && (
         <Pagination
-          totalPages={data.totalPages} // правильна назва пропа
+          totalPages={data.totalPages}
           currentPage={page}
           onPageChange={(newPage: number) => setPage(newPage)}
         />
@@ -54,7 +49,6 @@ const App = () => {
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          {/* ✅ Використовуємо onClose замість onCancel */}
           <NoteForm onClose={() => setIsModalOpen(false)} />
         </Modal>
       )}
