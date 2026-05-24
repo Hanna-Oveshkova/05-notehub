@@ -6,7 +6,7 @@ import type { CreateNoteDto, NoteTag } from "../../types/note";
 import css from "./NoteForm.module.css";
 
 interface NoteFormProps {
-  onCancel: () => void;
+  onClose: () => void;
 }
 
 const validationSchema = Yup.object({
@@ -20,14 +20,14 @@ const validationSchema = Yup.object({
     .required("Tag is required"),
 });
 
-const NoteForm = ({ onCancel }: NoteFormProps) => {
+const NoteForm = ({ onClose }: NoteFormProps) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (note: CreateNoteDto) => createNote(note),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
-      onCancel();
+      onClose();
     },
   });
 
@@ -80,7 +80,7 @@ const NoteForm = ({ onCancel }: NoteFormProps) => {
             <button
               type="button"
               className={css.cancelButton}
-              onClick={onCancel}
+              onClick={onClose}
             >
               Cancel
             </button>
