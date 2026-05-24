@@ -1,10 +1,11 @@
 import css from "./NoteForm.module.css";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import type { NoteTag } from "../../types/note";
 
 interface NoteFormProps {
   onCancel: () => void;
-  onSubmit: (values: { title: string; content: string; tag: string }) => void;
+  onSubmit: (values: { title: string; content: string; tag: NoteTag }) => void;
 }
 
 const validationSchema = Yup.object({
@@ -21,7 +22,7 @@ const validationSchema = Yup.object({
 const NoteForm = ({ onCancel, onSubmit }: NoteFormProps) => {
   return (
     <Formik
-      initialValues={{ title: "", content: "", tag: "Todo" }}
+      initialValues={{ title: "", content: "", tag: "Todo" as NoteTag }}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
         onSubmit(values);

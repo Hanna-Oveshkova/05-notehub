@@ -1,13 +1,27 @@
+import ReactPaginateModule from "react-paginate";
+import type { ReactPaginateProps } from "react-paginate";
+import type { ComponentType } from "react";
 import css from "./Pagination.module.css";
-import ReactPaginate from "react-paginate";
+
+type ModuleWithDefault<T> = { default: T };
+
+const ReactPaginate = (
+  ReactPaginateModule as unknown as ModuleWithDefault<
+    ComponentType<ReactPaginateProps>
+  >
+).default;
 
 interface PaginationProps {
   pageCount: number;
   onPageChange: (selectedPage: number) => void;
 }
 
-const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
+export default function Pagination({
+  pageCount,
+  onPageChange,
+}: PaginationProps) {
   if (pageCount <= 1) return null;
+
   return (
     <ReactPaginate
       pageCount={pageCount}
@@ -21,6 +35,4 @@ const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
       breakLabel={"..."}
     />
   );
-};
-
-export default Pagination;
+}
